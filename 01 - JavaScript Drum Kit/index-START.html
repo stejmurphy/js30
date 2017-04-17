@@ -58,8 +58,40 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  window.addEventListener('keydown', function(e) {
+
+      //String Template format only supported in ES6 (Chrome, Firefox)
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      // setup key selection animation
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+      // if a key does not have a data-key, stop the function here
+      if(!audio) return;
+
+      // rewind audio file to start right after selection
+      audio.currentTime = 0;
+
+      // play the audio file when selected
+      audio.play();
+
+      // add class when key selected
+      key.classList.add('playing');
+
+  });
 
 
+  // function call to remove transitions
+  function removeTransition(e){
+      //skip it if it is not a transform
+      if(e.propertyName !== 'transform') return;
+
+      this.classList.remove('playing');
+  }
+
+  // remove key selected class
+  const keys = document.querySelectorAll('.key');
+
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition ));
 
 
 
